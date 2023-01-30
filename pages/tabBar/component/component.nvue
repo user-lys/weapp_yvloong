@@ -1,0 +1,140 @@
+<template>
+	<view class="uni-container">
+    <view v-if="!hasLeftWin" class="uni-hello-text">
+      公告: 下单优惠大酬宾全场9折!
+    </view>
+		<view v-if="!hasLeftWin" class="uni-hello-text">
+			<view class="uni-margin-wrap">
+        <swiper class="swiperindex" circular indicator-dots={true} :autoplay="autoplay" :interval="interval"
+          :duration="duration">
+          <swiper-item>
+            <view class="swiper-item uni-bg-red">A</view>
+          </swiper-item>
+          <swiper-item>
+            <view class="swiper-item uni-bg-green">B</view>
+          </swiper-item>
+          <swiper-item>
+            <view class="swiper-item uni-bg-blue">C</view>
+          </swiper-item>
+        </swiper>
+      </view>
+		</view>
+    <uni-section title="自定义列数" type="line" padding>
+			<uni-grid :column="4" :highlight="true" @change="change">
+				<uni-grid-item v-for="(item, index) in list" :index="index" :key="index">
+					<view class="grid-item-box" style="background-color: #fff;">
+						<text class="text">{{ item.name }}</text>
+					</view>
+				</uni-grid-item>
+			</uni-grid>
+		</uni-section>
+	</view>
+</template>
+<script>
+	// TODO 修复Android v3 加载过慢问题
+	// #ifdef APP-PLUS
+	var domModule = weex.requireModule('dom');
+	domModule.addRule('fontFace', {
+		'fontFamily': "uniicons",
+		'src': "url('/static/uni.ttf')"
+	});
+	// #endif
+	export default {
+		props: {
+			hasLeftWin: {
+				type: Boolean
+			},
+			leftWinActive: {
+				type: String
+			}
+		},
+		data() {
+			return {
+        background: ['color1', 'color2', 'color3'],
+        indicatorDots: true,
+        autoplay: true,
+        interval: 2000,
+        duration: 500,
+				list: [{
+						id: 'view',
+						name: '视图容器',
+						open: false,
+						pages: [
+							'view',
+							'scroll-view',
+							'swiper'
+							// #ifndef MP-TOUTIAO || MP-LARK
+							,
+							'movable-view',
+							'cover-view'
+							// #endif
+						]
+					}, {
+						id: 'content',
+						name: '基础内容',
+						open: false,
+						pages: ['text', 'rich-text', 'progress']
+          }
+				]
+			}
+		},
+		onShareAppMessage() {
+			return {
+				title: '欢迎体验uni-app',
+				path: '/pages/tabBar/component/component'
+			}
+		},
+		onNavigationBarButtonTap(e) {
+			uni.navigateTo({
+				url: '/pages/about/about'
+			});
+		},
+		// #ifdef H5
+		watch: {
+			$route: {
+				immediate: true,
+				handler(newRoute) {
+
+				}
+			}
+		},
+		// #endif
+		methods: {
+    }
+	}
+</script>
+<style>
+  @import '../../../common/uni-nvue.css';
+	.uni-margin-wrap {
+		width: 690rpx;
+		width: 100%;
+    border-radius: 5rpx;
+	}
+	.swiperindex {
+		height: 240rpx;
+    border-radius: 5rpx;
+	}
+	.swiper-item {
+		display: block;
+		height: 240rpx;
+		line-height: 240rpx;
+		text-align: center;
+    border-radius: 5rpx;
+	}
+	.swiper-list {
+		margin-top: 40rpx;
+		margin-bottom: 0;
+	}
+	.uni-common-mt {
+		margin-top: 60rpx;
+		position: relative;
+	}
+	.info {
+		position: absolute;
+		right: 20rpx;
+	}
+	.uni-padding-wrap {
+		width: 550rpx;
+		padding: 0 100rpx;
+	}
+</style>
